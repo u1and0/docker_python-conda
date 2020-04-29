@@ -1,7 +1,4 @@
-# ---
-# Welcome to Python dev docker image
-# ---
-#
+# Python dev docker image
 #
 # Usage:
 #   In host machine's shell
@@ -85,9 +82,6 @@ RUN source /etc/profile.d/conda.sh &&\
     : "clean cache" &&\
     conda build purge-all
 
-# Apply conda activate patch
-RUN git pull origin master
-
 # !!
 # SHELL=/usr/bin/zsh at parent layer
 # !!
@@ -96,5 +90,5 @@ EXPOSE 8888
 
 LABEL maintainer="u1and0 <e01.ando60@gmail.com>"\
       description="python dev container"\
-      description.ja="python開発用コンテナ。ipython, jupyter notebook, neovimによる開発が可能"\
-      build_version="python:v0.0.0"
+      description.ja="python開発用コンテナ。ipython, jupyter notebook, neovimによる開発"\
+      build_version="python:v0.1.0"
