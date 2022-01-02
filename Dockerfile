@@ -91,4 +91,4 @@ EXPOSE 8888
 LABEL maintainer="u1and0 <e01.ando60@gmail.com>"\
       description="python dev container"\
       description.ja="python開発用コンテナ。ipython, jupyter notebook, neovimによる開発"\
-      build_version="python:v0.1.0"
+      build_version="python:v1.0.0"
