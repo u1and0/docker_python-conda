@@ -42,27 +42,30 @@ ENV PATH /etc/profile.d/:$PATH
 # Base packages
 RUN source /etc/profile.d/conda.sh &&\
     sudo conda install --quiet --yes \
-        numpy \
-        pandas \
-        scipy \
-        matplotlib \
-        seaborn \
-        more-itertools \
-        h5py \
-        line_profiler \
-        ipython \
-        jupyter \
-        notebook \
-        conda-forge::jupyterthemes \
+        autopep8 \
+        beautifulsoup4 \
+        conda-build \
         conda-forge::jupyter_contrib_nbextensions \
+        conda-forge::jupyterthemes \
         conda-forge::neovim \
         flake8 \
+        h5py \
+        ipython \
+        jupyter \
+        line_profiler \
+        matplotlib \
+        more-itertools \
+        mypy \
+        notebook \
+        numpy \
+        pandas \
         pyflakes \
-        pylint \
         pygments \
-        yapf \
-        autopep8 \
-        conda-build &&\
+        pylint \
+        requests \
+        scipy \
+        seaborn \
+        yapf &&\
     sudo conda remove --quiet --yes --force qt pyqt && \
     : "clean cache" &&\
     conda build purge-all
@@ -91,4 +94,4 @@ EXPOSE 8888
 LABEL maintainer="u1and0 <e01.ando60@gmail.com>"\
       description="python dev container"\
       description.ja="python開発用コンテナ。ipython, jupyter notebook, neovimによる開発"\
-      build_version="python:v1.0.0"
+      build_version="python:v1.1.0"
