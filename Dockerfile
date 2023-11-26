@@ -40,48 +40,46 @@ RUN sudo pacman -Syyu --noconfirm python-pip otf-ipafont &&\
 ENV PATH /etc/profile.d/:$PATH
 
 # Base packages
+USER root
 RUN source /etc/profile.d/conda.sh &&\
-    sudo conda install --quiet --yes \
+    conda install --quiet --yes \
+        --channel conda-forge \
         autopep8 \
         beautifulsoup4 \
         conda-build \
-        conda-forge::jupyter_contrib_nbextensions \
-        conda-forge::jupyterthemes \
-        conda-forge::neovim \
+        cufflinks-py \
+        dash \
+        dash-core-components \
+        dash-html-components \
+        dash-renderer \
+        dash-table \
+        fastapi \
         flake8 \
         h5py \
         ipython \
+        jinja2 \
         jupyter \
+        jupyter_contrib_nbextensions \
+        jupyterthemes \
         line_profiler \
         matplotlib \
         more-itertools \
         mypy \
+        neovim \
         notebook \
         numpy \
         pandas \
+        plotly \
+        poetry \
         pyflakes \
         pygments \
         pylint \
         requests \
+        scikit-learn \
         scipy \
         seaborn \
+        uvicorn \
         yapf &&\
-    sudo conda remove --quiet --yes --force qt pyqt && \
-    : "clean cache" &&\
-    conda build purge-all
-
-# Dev packages
-RUN source /etc/profile.d/conda.sh &&\
-    sudo conda install --quiet --yes \
-        scikit-learn \
-        plotly \
-        conda-forge::cufflinks-py \
-        dash \
-        dash-renderer \
-        dash-core-components \
-        dash-html-components \
-        dash-table &&\
-    sudo conda remove --quiet --yes --force qt pyqt && \
     : "clean cache" &&\
     conda build purge-all
 
@@ -89,9 +87,10 @@ RUN source /etc/profile.d/conda.sh &&\
 # SHELL=/usr/bin/zsh at parent layer
 # !!
 
+USER u1and0
 EXPOSE 8888
 
 LABEL maintainer="u1and0 <e01.ando60@gmail.com>"\
       description="python dev container"\
       description.ja="python開発用コンテナ。ipython, jupyter notebook, neovimによる開発"\
-      build_version="python:v1.1.0"
+      build_version="python:v1.2.0"
