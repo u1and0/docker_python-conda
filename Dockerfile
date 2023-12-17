@@ -34,13 +34,13 @@ RUN yay -Syyu --noconfirm miniconda3 &&\
     yay -Scc &&\
     sudo ln -s /opt/miniconda3/etc/profile.d/conda.sh /etc/profile.d/conda.sh
 
-RUN sudo pacman -Syyu --noconfirm python-pip otf-ipafont &&\
-    pacman -Qtdq | xargs -r sudo pacman --noconfirm -Rcns
+USER root
+RUN pacman -Syyu --noconfirm python-pip otf-ipafont &&\
+    pacman -Qtdq | xargs -r pacman --noconfirm -Rcns
 
 ENV PATH /etc/profile.d/:$PATH
 
 # Base packages
-USER root
 RUN source /etc/profile.d/conda.sh &&\
     conda install --quiet --yes \
         --channel conda-forge \
