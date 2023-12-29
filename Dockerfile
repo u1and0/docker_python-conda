@@ -23,20 +23,39 @@
 #         or
 #     $ nvim
 
-FROM u1and0/zplug:latest
+ARG ARCH
+FROM u1and0/zplug:${ARCH}
+# docker build --build-arg ARCH=amd64
+# or
+# docker build --build-arg ARCH=arm64
+ARG TARGETPLATFORM
 
 # !!
 # USER=u1and0 not root user
 # !!
 
-# Install miniconda3-latest & restore conda packages
-RUN yay -Syyu --noconfirm miniconda3 &&\
-    yay -Scc &&\
-    sudo ln -s /opt/miniconda3/etc/profile.d/conda.sh /etc/profile.d/conda.sh
-
 USER root
 RUN pacman -Syyu --noconfirm python-pip otf-ipafont &&\
     pacman -Qtdq | xargs -r pacman --noconfirm -Rcns
+
+# Install miniconda3-latest & restore conda packages
+WORKDIR /tmp/miniconda3
+RUN PLATFORM=$( \
+        case ${TARGETPLATFORM} in \
+            linux/amd64 ) echo "x86_64";; \
+            linux/arm64 ) echo "aarch64";; \
+        esac ) &&\
+    echo ${PLATFORM} &&\
+    : 'PLATFORMの値を使用したファイルを作成' ;\
+    touch ${PLATFORM} ;\
+    : '作成したファイルがあるか確認(存在しなければ$?=2となりビルドエラーとなる)' ;\
+    [ -f ${PLATFORM} ] &&\
+    curl -fsSLo miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-${PLATFORM}.sh &&\
+    bash ./miniconda.sh -b -u -p /tmp/miniconda3 &&\
+    rm -rf /tmp/miniconda3/miniconda.sh
+# build.sh URL
+# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+# https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh
 
 ENV PATH /etc/profile.d/:$PATH
 
